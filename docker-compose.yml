@@ -1,17 +1,48 @@
 version: '3.8'
 
 services:
-  app:
+  vue-app:
     build:
-      context: .
+      context: ./frontend
       dockerfile: Dockerfile
-    ports:
-      - "80:8080"
+      args: 
+        STUDENT_NAME: "Weisly Bernard Wijaya"
+        STUDENT_NIM: "00000053528"
+    container_name: vue_app_container
+    expose:
+      - "5173"  # Expose the frontend port internally
     environment:
-      SUBDOMAIN: ${WEISLY}
+      - HOST=0.0.0.0
+      - PORT=5173
     networks:
-      - app-network
+      - app_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args: 
+        STUDENT_NAME: "Weisly Bernard Wijaya"
+        STUDENT_NIM: "00000053528"
+    container_name: backend_container
+    expose:
+      - "3000"
+    networks:
+      - app_network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_container
+    ports:
+      - "80:80"  # Expose port 80 to the host
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf  # Map your custom nginx configuration
+    depends_on:
+      - vue-app
+      - backend
+    networks:
+      - app_network
 
 networks:
-  app-network:
+  app_network:
     driver: bridge
