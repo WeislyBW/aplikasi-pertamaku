@@ -15,6 +15,6 @@ const submitComment = () => {
     <h3>Comments</h3>
     <input v-model="comment" placeholder="Leave a comment" />
     <button @click="submitComment">Submit</button>
-    <div v-html="comments"></div>
+    <div v-text="comments"></div>
   </div>
 </template>

@@ -5,9 +5,14 @@ import CommentSection from './components/CommentSection.vue';
 const userId = ref('');
 const users = ref(null);
 const newEmail = ref('');
+const authToken = 'contoh-auth-token'; // contoh, perlu diganti dengan token yang valid
 
 const getUser = async () => {
-  const response = await fetch(`http://localhost:3000/api/user/${userId.value}`);
+  const response = await fetch(`https://yourdomain.com/api/user/${userId.value}`, {
+    headers: {
+      Authorization: `Bearer ${authToken}`, // authorization header
+    },
+  });
   users.value = await response.json();
 };
 
@@ -32,7 +37,6 @@ const changeEmail = async () => {
     <div v-if="users">
       <template v-for="user in users">
         <h2>{{ user.name }}</h2>
-        <p>Email: {{ user.email }}</p>
         <hr />
       </template>
     </div>
