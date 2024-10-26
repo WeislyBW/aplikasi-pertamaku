@@ -1,4 +1,4 @@
-FROM node:18-alpine AS frontend
+FROM node:20-alpine AS frontend
 
 WORKDIR /app/frontend
 
@@ -8,7 +8,7 @@ RUN npm install -g pnpm && pnpm install
 COPY ./frontend ./
 RUN pnpm run build
 
-FROM node:18-alpine AS backend
+FROM node:20-alpine AS backend
 
 WORKDIR /app/backend
 
