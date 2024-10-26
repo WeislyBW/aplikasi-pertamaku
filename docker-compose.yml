@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:8080"
+    environment:
+      SUBDOMAIN: ${WEISLY}
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
